@@ -3,4 +3,13 @@
     <string name="looking_for">I am looking for...</string>
     <string name="or">or</string>
     <string name="find_lunch">Find someone to eat lunch with now</string>
+    <string name="find_now">Find someone now</string>
+    <string name="my_profile">My Profile</string>
+    <string name="lunch_buddy">Lunch Buddy</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="info">Info</string>
+    <string name="interests">Interests</string>
+    <string name="location">Location</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
