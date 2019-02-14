@@ -12,4 +12,10 @@
     <string name="interests">Interests</string>
     <string name="location">Location</string>
     <string name="sign_out">Sign Out</string>
+    <string name="my_interests">My Interests</string>
+    <string name="add_interest">Add Interest</string>
+    <string name="interest_info">Interest Info</string>
+    <string name="interest">Interest</string>
+    <string name="expertise_level">Expertise level</string>
+    <string name="details">Details</string>
 </resources>
