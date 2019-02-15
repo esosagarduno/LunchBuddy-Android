@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "949663107112",
+    "firebase_url": "https://lunchbuddy-ff0ff.firebaseio.com",
+    "project_id": "lunchbuddy-ff0ff",
+    "storage_bucket": "lunchbuddy-ff0ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949663107112:android:d27b57235c93e913",
+        "android_client_info": {
+          "package_name": "com.mmrnd.lunchbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949663107112-qhtmqbohto5c3j57vdaslluqjnsg9gl6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mmrnd.lunchbuddy",
+            "certificate_hash": "4fe7008921e98b4d428e2de4f71eb95ba2317ce0"
+          }
+        },
+        {
+          "client_id": "949663107112-flc9b01pjd8bcohvgdhnkmo3b7eb3buv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcyzNH4aOLz32X77MIJFUbu02Je_H6Q0c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949663107112-flc9b01pjd8bcohvgdhnkmo3b7eb3buv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "949663107112-08ukmq99tstqmq36hokidq0rkli05rp4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.massmutual.LunchBuddy-iOS"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
