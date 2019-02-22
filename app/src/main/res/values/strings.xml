@@ -21,4 +21,6 @@
     <string name="save">Save</string>
     <string name="plus">+</string>
     <string name="add">Add</string>
+    <string name="not_on_list">Not on the list?</string>
+    <string name="create_new_interest">Create new interest</string>
 </resources>

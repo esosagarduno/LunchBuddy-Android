@@ -32,7 +32,7 @@
             app:layout_constraintTop_toBottomOf="@+id/add_interest_toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/grey" android:id="@+id/constraintLayout3">
+            android:background="@color/light_grey" android:id="@+id/constraintLayout3">
 
         <android.support.v7.widget.SearchView
                 android:layout_width="0dp"
@@ -45,11 +45,43 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.constraint.ConstraintLayout android:layout_width="0dp"
+                                                 android:layout_height="wrap_content"
+                                                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+                                                 app:layout_constraintEnd_toEndOf="parent"
+                                                 app:layout_constraintStart_toStartOf="parent"
+                                                 android:id="@+id/constraintLayout4">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/not_on_list"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:id="@+id/textView4"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_new_interest"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+
+    </android.support.constraint.ConstraintLayout>
+
     <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/add_interest_recyclerview"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/add_interest_recyclerview"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"/>
 
 </android.support.constraint.ConstraintLayout>

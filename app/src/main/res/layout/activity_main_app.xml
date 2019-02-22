@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/constraintLayout" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/grey" android:id="@+id/constraintLayout2">
+            android:background="@color/light_grey" android:id="@+id/constraintLayout2">
 
         <android.support.v7.widget.SearchView
                 android:layout_width="0dp"
