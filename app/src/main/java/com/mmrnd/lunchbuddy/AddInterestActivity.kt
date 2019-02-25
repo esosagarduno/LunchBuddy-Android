@@ -6,8 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import com.google.firebase.database.*
 
 /**
@@ -19,6 +20,7 @@ class AddInterestActivity : AppCompatActivity() {
     // GUI elements
     var toolbar: Toolbar? = null
     var searchView: SearchView? = null
+    var createNewTextView: TextView? = null
     var recyclerView: RecyclerView? = null
 
     // Firebase
@@ -35,7 +37,13 @@ class AddInterestActivity : AppCompatActivity() {
         // Get GUI elements
         toolbar = findViewById(R.id.add_interest_toolbar)
         searchView = findViewById(R.id.add_interest_searchview)
+        createNewTextView = findViewById(R.id.add_interest_createnew_textview)
         recyclerView = findViewById(R.id.add_interest_recyclerview)
+
+        // Set on click listeners
+        createNewTextView!!.setOnClickListener ({ view ->
+            // TODO implement
+        })
 
         // Initialize toolbar
         toolbar!!.title = ""
@@ -70,18 +78,12 @@ class AddInterestActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
                     for(childSnap in snapshot.children) {
-                        Log.d("INTEREST", childSnap.key.toString())
                         interests.add(childSnap.key.toString())
                         interestsAdapter!!.notifyDataSetChanged()
                     }
                 }
-                else {
-                    Log.d("TAG", "NOT EXISTS")
-                }
             }
-            override fun onCancelled(snapshot: DatabaseError) {
-                Log.d("TAG", "ERROR")
-            }
+            override fun onCancelled(snapshot: DatabaseError) { }
         })
     }
 
