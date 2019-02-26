@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 /**
@@ -63,8 +64,19 @@ class MainAppActivity : AppCompatActivity() {
         recyclerView!!.adapter = interestsAdapter
         interestsAdapter!!.notifyDataSetChanged()
 
+        // Check if user is logged in
+        checkifUserLoggedIn()
+
         // Fetch interests
         fetchInterests()
+    }
+
+    // Check if user is logged in
+    private fun checkifUserLoggedIn() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user == null) {
+            this.finish()
+        }
     }
 
     // Fetch interests
