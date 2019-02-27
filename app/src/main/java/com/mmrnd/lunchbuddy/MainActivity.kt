@@ -99,11 +99,12 @@ class MainActivity : AppCompatActivity() {
 
     // Go to sign up
     private fun goToSignUp() {
-
+        val intent = Intent(this, SignUpActivity::class.java)
+        startActivity(intent)
     }
 
     // Show toast
     private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

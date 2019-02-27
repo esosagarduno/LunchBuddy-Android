@@ -27,4 +27,7 @@
     <string name="no_account">Don\'t have an account?</string>
     <string name="sign_up">Sign Up</string>
     <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="confirm_email">Confirm email</string>
+    <string name="confirm_password">Confirm password</string>
 </resources>
