@@ -46,6 +46,12 @@ class MainAppActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.main_app_recyclerview)
         findNowButton = findViewById(R.id.main_app_findsomeone_button)
 
+        // Set on click listeners
+        findNowButton!!.setOnClickListener({ view->
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        })
+
         // Initialize toolbar
         toolbar!!.title = ""
         setSupportActionBar(toolbar)
@@ -58,7 +64,7 @@ class MainAppActivity : AppCompatActivity() {
         interests = ArrayList()
         interestsAdapter = InterestsAdapter(this, interests, object: InterestsAdapter.OnInterestInterface {
             override fun interestClicked(index: Int) {
-                TODO("not implemented")
+                goToSelectedInterest(interests.get(index))
             }
         })
         recyclerView!!.adapter = interestsAdapter
@@ -89,19 +95,21 @@ class MainAppActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
                     for(childSnap in snapshot.children) {
-                        Log.d("INTEREST", childSnap.key.toString())
                         interests.add(childSnap.key.toString())
                         interestsAdapter!!.notifyDataSetChanged()
                     }
                 }
-                else {
-                    Log.d("TAG", "NOT EXISTS")
-                }
+                else { }
             }
-            override fun onCancelled(snapshot: DatabaseError) {
-                Log.d("TAG", "ERROR")
-            }
+            override fun onCancelled(snapshot: DatabaseError) { }
         })
+    }
+
+    // Go to selected interest
+    private fun goToSelectedInterest(interestTitle: String) {
+        val intent = Intent(this, SelectedInterestActivity::class.java)
+        intent.putExtra(SelectedInterestActivity().INTEREST_TITLE, interestTitle)
+        startActivity(intent)
     }
 
     // Go to my profile

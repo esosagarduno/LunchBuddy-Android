@@ -2,6 +2,7 @@ package com.mmrnd.lunchbuddy;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,14 +44,23 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.Inte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InterestsViewHolder interestsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull InterestsViewHolder interestsViewHolder, final int i) {
         // Set interest info
         interestsViewHolder.textView.setText(interests.get(i));
+
+        // Set on click listener
+        interestsViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interestInterface.interestClicked(i);
+            }
+        });
     }
 
     // ViewHolder class
     public static class InterestsViewHolder extends RecyclerView.ViewHolder {
         // GUI elements
+        ConstraintLayout constraintLayout;
         TextView textView;
 
         // Constructor
@@ -58,6 +68,7 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.Inte
             super(itemView);
 
             // Find GUI elements
+            constraintLayout = itemView.findViewById(R.id.interest_item_constraintlayout);
             textView = itemView.findViewById(R.id.interest_item_textview);
         }
 
