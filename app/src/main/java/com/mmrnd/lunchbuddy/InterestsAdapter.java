@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.InterestsViewHolder> {
@@ -34,6 +35,16 @@ public class InterestsAdapter extends RecyclerView.Adapter<InterestsAdapter.Inte
     @Override
     public int getItemCount() {
         return interests.size();
+    }
+
+    public void updateList(List<String> newInterests) {
+        interests = new ArrayList<>();
+        interests.addAll(newInterests);
+        notifyDataSetChanged();
+    }
+
+    public List<String> getInterests() {
+        return interests;
     }
 
     @NonNull

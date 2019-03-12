@@ -52,6 +52,24 @@ class MainAppActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
+        // Set search view query text listener
+        searchView!!.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(text: String?): Boolean {
+                var userInput = text!!.toLowerCase()
+                var newList = ArrayList<String>()
+                for(interest in interests) {
+                    if(interest.toLowerCase().startsWith(userInput)) {
+                        newList.add(interest)
+                    }
+                }
+                interestsAdapter!!.updateList(newList)
+                return true
+            }
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+        })
+
         // Initialize toolbar
         toolbar!!.title = ""
         setSupportActionBar(toolbar)
@@ -64,7 +82,7 @@ class MainAppActivity : AppCompatActivity() {
         interests = ArrayList()
         interestsAdapter = InterestsAdapter(this, interests, object: InterestsAdapter.OnInterestInterface {
             override fun interestClicked(index: Int) {
-                goToSelectedInterest(interests.get(index))
+                goToSelectedInterest(interestsAdapter!!.interests.get(index))
             }
         })
         recyclerView!!.adapter = interestsAdapter
@@ -130,5 +148,9 @@ class MainAppActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
     }
 }

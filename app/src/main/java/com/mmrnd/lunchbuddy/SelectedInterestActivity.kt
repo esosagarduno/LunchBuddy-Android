@@ -1,5 +1,6 @@
 package com.mmrnd.lunchbuddy
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -74,7 +75,8 @@ class SelectedInterestActivity : AppCompatActivity() {
 
     // Go to selected user
     private fun goToSelectedUser(user: User) {
-        // TODO implement
+        val intent = Intent(this, SelectedUserActivity::class.java)
+        startActivity(intent)
     }
 
     // Fetch users
