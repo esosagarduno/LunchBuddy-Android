@@ -25,28 +25,30 @@
             android:src="@mipmap/user_icon"
             android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/selected_user_toolbar"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:id="@+id/circleImageView"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:id="@+id/selected_user_imageview"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="@string/name"
               android:textColor="@color/black"
               android:textSize="@dimen/text_size_medium"
-              android:layout_marginStart="16dp" app:layout_constraintTop_toBottomOf="@+id/circleImageView"
-              app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-              android:layout_marginEnd="16dp" android:layout_marginTop="4dp" android:id="@+id/textView23"/>
+              android:id="@+id/selected_user_name_textview"
+              android:layout_marginTop="8dp"
+              app:layout_constraintTop_toBottomOf="@+id/selected_user_imageview" android:layout_marginEnd="16dp"
+              app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="16dp"
+              app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="@string/email"
               android:layout_marginTop="4dp"
               android:textSize="@dimen/text_size_medium"
-              app:layout_constraintTop_toBottomOf="@+id/textView23" app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/selected_user_name_textview" app:layout_constraintStart_toStartOf="parent"
               android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
-              android:layout_marginEnd="16dp" android:id="@+id/textView24"/>
+              android:layout_marginEnd="16dp" android:id="@+id/selected_user_email_textview"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="@string/interest"
               android:layout_marginTop="16dp"
-              app:layout_constraintTop_toBottomOf="@+id/textView24" app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/selected_user_email_textview" app:layout_constraintStart_toStartOf="parent"
               android:layout_marginStart="16dp" android:id="@+id/textView25"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -55,28 +57,29 @@
               android:layout_marginTop="8dp"
               android:textSize="@dimen/text_size_medium"
               app:layout_constraintTop_toBottomOf="@+id/textView25" app:layout_constraintStart_toStartOf="parent"
-              android:layout_marginStart="16dp" android:id="@+id/textView26"/>
+              android:layout_marginStart="16dp" android:id="@+id/selected_user_interesttitle_textview"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="@string/expertise_level"
-              app:layout_constraintStart_toEndOf="@+id/textView26"
+              app:layout_constraintStart_toEndOf="@+id/selected_user_interesttitle_textview"
               android:layout_marginStart="8dp" android:layout_marginTop="8dp"
               android:textSize="@dimen/text_size_medium"
               app:layout_constraintTop_toBottomOf="@+id/textView25" app:layout_constraintEnd_toEndOf="parent"
-              android:layout_marginEnd="16dp" app:layout_constraintHorizontal_bias="0.0"/>
+              android:layout_marginEnd="16dp" app:layout_constraintHorizontal_bias="0.0"
+              android:id="@+id/selected_user_expertiselevel_textview"/>
 
     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
               android:text="@string/details"
               android:layout_marginTop="8dp"
               android:textSize="@dimen/text_size_medium"
-              app:layout_constraintTop_toBottomOf="@+id/textView26" app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/selected_user_interesttitle_textview" app:layout_constraintStart_toStartOf="parent"
               android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
-              android:layout_marginEnd="16dp" android:id="@+id/textView27"/>
+              android:layout_marginEnd="16dp" android:id="@+id/selected_user_details_textview"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="@string/other_interests"
               android:layout_marginTop="16dp"
-              app:layout_constraintTop_toBottomOf="@+id/textView27" app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/selected_user_details_textview" app:layout_constraintStart_toStartOf="parent"
               android:layout_marginStart="16dp" android:id="@+id/textView28"/>
 
     <android.support.v7.widget.RecyclerView android:layout_width="0dp"
@@ -85,7 +88,8 @@
                                             app:layout_constraintTop_toBottomOf="@+id/textView28"
                                             app:layout_constraintStart_toStartOf="parent"
                                             app:layout_constraintEnd_toEndOf="parent"
-                                            app:layout_constraintBottom_toBottomOf="parent">
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            android:id="@+id/selected_user_recyclerview">
 
     </android.support.v7.widget.RecyclerView>
 

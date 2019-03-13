@@ -76,6 +76,14 @@ class SelectedInterestActivity : AppCompatActivity() {
     // Go to selected user
     private fun goToSelectedUser(user: User) {
         val intent = Intent(this, SelectedUserActivity::class.java)
+        val newActivity = SelectedUserActivity()
+        intent.putExtra(newActivity.USER_ID, user.id)
+        intent.putExtra(newActivity.USER_NAME, user.name)
+        intent.putExtra(newActivity.USER_EMAIL, user.email)
+        intent.putExtra(newActivity.USER_PHOTO, user.userPhoto)
+        intent.putExtra(newActivity.INTEREST_TITLE, interestTitle)
+        intent.putExtra(newActivity.INTEREST_EXPERIENCE, user.experience)
+        intent.putExtra(newActivity.INTEREST_DETAILS, user.details)
         startActivity(intent)
     }
 
