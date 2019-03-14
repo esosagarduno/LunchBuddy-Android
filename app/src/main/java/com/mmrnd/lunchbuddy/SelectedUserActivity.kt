@@ -2,10 +2,13 @@ package com.mmrnd.lunchbuddy
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
+import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
@@ -41,6 +44,11 @@ class SelectedUserActivity : AppCompatActivity() {
     var interestTitle = ""
     var interestExperience = -1
     var interestDetails = ""
+    var adapter: UsersInterestsAdapter? = null
+    var interests = ArrayList<MyInterest>()
+
+    // Firebase
+    var ref: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,8 +92,65 @@ class SelectedUserActivity : AppCompatActivity() {
             expertiseTextView!!.text = "- Expert"
         }
         detailsTextView!!.text = interestDetails
+
+        // Initialize firebase
+        ref = FirebaseDatabase.getInstance().reference.child(DatabaseManager.USERS).child(userId).child(DatabaseManager.USER_INTERESTS)
+
+        // Initialize variables
+        recyclerView!!.layoutManager = LinearLayoutManager(this)
+        interests = ArrayList()
+        adapter = UsersInterestsAdapter(this, interests, object: UsersInterestsAdapter.OnUsersInterestInterface {
+            override fun interestClicked(index: Int) {
+                displayInterest(interests.get(index))
+            }
+        })
+        recyclerView!!.adapter = adapter
+        adapter!!.notifyDataSetChanged()
+
+        // Fetch interests
+        fetchInterests()
     }
 
+    // Fetch interests
+    private fun fetchInterests() {
+        // Clear list
+        interests.clear()
+        adapter!!.notifyDataSetChanged()
+        // Fetch info
+        ref!!.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    for(childSnap in snapshot.children) {
+                        val title = childSnap.key
+                        val level = childSnap.child(DatabaseManager.USER_INTEREST_LEVEL).value.toString().toInt()
+                        val details = childSnap.child(DatabaseManager.USER_INTEREST_DETAILS).value.toString()
+                        val newInterest = MyInterest(title, level, details)
+                        interests.add(newInterest)
+                        adapter!!.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) { }
+        })
+    }
+
+    // Display interest
+    private fun displayInterest(interest: MyInterest) {
+        interestTitleTextView!!.text = interest.title
+        if(interest.level == DatabaseManager.NOVICE) {
+            expertiseTextView!!.text = "- Novice"
+        }
+        else if(interest.level == DatabaseManager.OK) {
+            expertiseTextView!!.text = "- OK"
+        }
+        else if(interest.level == DatabaseManager.EXPERT) {
+            expertiseTextView!!.text = "- Expert"
+        }
+        detailsTextView!!.text = interest.details
+    }
+
+    // Menu items
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item!!.itemId
         if(id == android.R.id.home) {
