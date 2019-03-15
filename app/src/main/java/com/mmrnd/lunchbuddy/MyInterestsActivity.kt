@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 
 /**
  * Created by Esteban Sosa
@@ -22,6 +25,10 @@ class MyInterestsActivity : AppCompatActivity() {
     // Variables
     var interestsAdapter: MyInterestsAdapter? = null
     var interests = ArrayList<MyInterest>()
+
+    // Firebase
+    var currentUser: FirebaseUser? = null
+    var ref: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +48,49 @@ class MyInterestsActivity : AppCompatActivity() {
         interests = ArrayList()
         interestsAdapter = MyInterestsAdapter(this, interests, object: MyInterestsAdapter.OnMyInterestInterface {
             override fun interestClicked(index: Int) {
-                TODO("not implemented")
+                goToEditInterest(interests.get(index))
             }
         })
         recyclerView!!.adapter = interestsAdapter
         interestsAdapter!!.notifyDataSetChanged()
 
-        // Fetch interests
-        fetchInterests()
+        // Firebase
+        currentUser = FirebaseAuth.getInstance().currentUser
+    }
+
+    // Go to edit interest
+    private fun goToEditInterest(interest: MyInterest) {
+        val intent = Intent(this, EditInterestActivity::class.java)
+        val newActivity = EditInterestActivity()
+        intent.putExtra(newActivity.IS_EDIT_INTEREST, true)
+        intent.putExtra(newActivity.EDIT_INTEREST_TITLE, interest.title)
+        intent.putExtra(newActivity.EDIT_INTEREST_SPINNER_VALUE, interest.level)
+        intent.putExtra(newActivity.EDIT_INTEREST_DETAILS, interest.details)
+        startActivity(intent)
     }
 
     // Fetch interests
     private fun fetchInterests() {
-        // TODO implement
+        // Clear list
+        interests.clear()
+        interestsAdapter!!.notifyDataSetChanged()
+        // Fetch info
+        if(currentUser != null) {
+            ref = FirebaseDatabase.getInstance().reference.child(DatabaseManager.USERS).child(currentUser!!.uid).child(DatabaseManager.USER_INTERESTS)
+            ref!!.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(childSnap in snapshot.children) {
+                        val title = childSnap.key
+                        val level = childSnap.child(DatabaseManager.USER_INTEREST_LEVEL).value.toString().toInt()
+                        val details = childSnap.child(DatabaseManager.USER_INTEREST_DETAILS).value.toString()
+                        val newInterest = MyInterest(title, level, details)
+                        interests.add(newInterest)
+                        interestsAdapter!!.notifyDataSetChanged()
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) { }
+            })
+        }
     }
 
     // Go to add interest
@@ -81,5 +118,10 @@ class MyInterestsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         this.finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchInterests()
     }
 }

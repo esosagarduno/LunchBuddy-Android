@@ -2,6 +2,7 @@ package com.mmrnd.lunchbuddy;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class MyInterestsAdapter extends RecyclerView.Adapter<MyInterestsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyInterestsViewHolder interestsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyInterestsViewHolder interestsViewHolder, final int i) {
         // Set interest info
         interestsViewHolder.titleTextView.setText(interests.get(i).getTitle());
         if(interests.get(i).getLevel() == DatabaseManager.NOVICE) {
@@ -59,11 +60,19 @@ public class MyInterestsAdapter extends RecyclerView.Adapter<MyInterestsAdapter.
             interestsViewHolder.levelTextView.setText("- Expert");
         }
         interestsViewHolder.detailsTextView.setText(interests.get(i).getDetails());
+        // Set click listener
+        interestsViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interestInterface.interestClicked(i);
+            }
+        });
     }
 
     // ViewHolder class
     public static class MyInterestsViewHolder extends RecyclerView.ViewHolder {
         // GUI elements
+        ConstraintLayout constraintLayout;
         TextView titleTextView;
         TextView levelTextView;
         TextView detailsTextView;
@@ -73,6 +82,7 @@ public class MyInterestsAdapter extends RecyclerView.Adapter<MyInterestsAdapter.
             super(itemView);
 
             // Find GUI elements
+            constraintLayout = itemView.findViewById(R.id.myinterestitem_cl);
             titleTextView = itemView.findViewById(R.id.myinterestitem_title_textview);
             levelTextView = itemView.findViewById(R.id.myinterestitem_level_textview);
             detailsTextView = itemView.findViewById(R.id.myinterestitem_details_textview);

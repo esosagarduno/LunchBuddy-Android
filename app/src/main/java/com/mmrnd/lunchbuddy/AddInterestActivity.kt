@@ -1,5 +1,6 @@
 package com.mmrnd.lunchbuddy
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -58,7 +59,7 @@ class AddInterestActivity : AppCompatActivity() {
         interests = ArrayList()
         interestsAdapter = InterestsAdapter(this, interests, object: InterestsAdapter.OnInterestInterface {
             override fun interestClicked(index: Int) {
-                TODO("not implemented")
+                goToEditInterest(interests.get(index))
             }
         })
         recyclerView!!.adapter = interestsAdapter
@@ -66,6 +67,17 @@ class AddInterestActivity : AppCompatActivity() {
 
         // Fetch interests
         fetchInterests()
+    }
+
+    // Go to edit interest
+    private fun goToEditInterest(interest: String) {
+        val intent = Intent(this, EditInterestActivity::class.java)
+        val newActivity = EditInterestActivity()
+        intent.putExtra(newActivity.IS_EDIT_INTEREST, false)
+        intent.putExtra(newActivity.EDIT_INTEREST_TITLE, interest)
+        intent.putExtra(newActivity.EDIT_INTEREST_SPINNER_VALUE, 0)
+        intent.putExtra(newActivity.EDIT_INTEREST_DETAILS, "")
+        startActivity(intent)
     }
 
     // Fetch interests

@@ -37,4 +37,11 @@
         properly. It will be added in a future update
     </string>
     <string name="other_interests">Other interests</string>
+    <string name="remove_interest">Remove Interest</string>
+    
+    <string-array name="expertise_levels_array">
+        <item>Novice</item>
+        <item>OK</item>
+        <item>Expert</item>
+    </string-array>
 </resources>
