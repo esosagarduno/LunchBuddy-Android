@@ -54,12 +54,30 @@ class AddInterestActivity : AppCompatActivity() {
         // Initialize Firebase
         ref = FirebaseDatabase.getInstance().reference.child(DatabaseManager.INTERESTS)
 
+        // Set search view query listener
+        searchView!!.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(text: String?): Boolean {
+                var userInput = text!!.toLowerCase()
+                var newList = ArrayList<String>()
+                for(interest in interests) {
+                    if(interest.toLowerCase().startsWith(userInput)) {
+                        newList.add(interest)
+                    }
+                }
+                interestsAdapter!!.updateList(newList)
+                return true
+            }
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+        })
+
         // Initialize variables
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         interests = ArrayList()
         interestsAdapter = InterestsAdapter(this, interests, object: InterestsAdapter.OnInterestInterface {
             override fun interestClicked(index: Int) {
-                goToEditInterest(interests.get(index))
+                goToEditInterest(interestsAdapter!!.interests.get(index))
             }
         })
         recyclerView!!.adapter = interestsAdapter

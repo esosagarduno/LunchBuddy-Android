@@ -1,7 +1,9 @@
 package com.mmrnd.lunchbuddy
 
+import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -86,7 +88,7 @@ class EditInterestActivity : AppCompatActivity() {
 
         // Set click listener
         removeButton!!.setOnClickListener({ view ->
-            removeInterest()
+            showRemoveInterestDialog()
         })
 
         // Firebase
@@ -126,7 +128,32 @@ class EditInterestActivity : AppCompatActivity() {
 
     // Remove interest
     private fun removeInterest() {
-        // TODO implement
+        if(currentUser != null) {
+            // Remove interest from user's list
+            ref!!.child(DatabaseManager.USERS).child(currentUser!!.uid).child(DatabaseManager.USER_INTERESTS).child(title).removeValue()
+            // Remove user from interest list of users
+            ref!!.child(DatabaseManager.INTERESTS).child(title).child(DatabaseManager.INTEREST_USERS).child(currentUser!!.uid).removeValue()
+        }
+        Toast.makeText(this, "Changes saved", Toast.LENGTH_LONG).show()
+        this.finish()
+    }
+
+    // Sign out alert dialog
+    private fun showRemoveInterestDialog() {
+        //Create alert dialog builder
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Are you sure you want to remove this interest?")
+        builder.setCancelable(true)
+        //Set buttons
+        builder.setPositiveButton("Yes") { dialog, which ->
+            removeInterest()
+        }
+        builder.setNegativeButton(
+            "Cancel"
+        ) { dialog, which -> dialog.cancel() }
+        //Create alert dialog
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 
 
