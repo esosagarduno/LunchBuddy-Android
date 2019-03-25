@@ -1,7 +1,12 @@
 package com.mmrnd.lunchbuddy;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,16 +18,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Esteban Sosa
  */
 
 public class MyProfileActivity extends AppCompatActivity {
+
+    static final String IMAGE_INTENT_TYPE = "image/*";
+    static final int IMAGE_REQUEST_CODE = 2;
 
     // GUI elements
     Toolbar toolbar;
@@ -36,6 +55,11 @@ public class MyProfileActivity extends AppCompatActivity {
     // Firebase
     DatabaseReference ref;
     FirebaseUser user;
+
+    // Variables
+    String userName;
+    Uri newImageUri;
+    boolean isImageChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +94,12 @@ public class MyProfileActivity extends AppCompatActivity {
                 showSignOutDialog();
             }
         });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhoto();
+            }
+        });
 
         // Initialize Firebase
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -82,14 +112,14 @@ public class MyProfileActivity extends AppCompatActivity {
     // Fetch user info
     private void fetchUserInfo() {
         if(user != null) {
-            ref = ref.child(user.getUid());
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            ref.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
                         // Fetch info
                         String email = dataSnapshot.child(DatabaseManager.EMAIL).getValue().toString();
                         String name = dataSnapshot.child(DatabaseManager.NAME).getValue().toString();
+                        userName = name;
                         int location = Integer.parseInt(dataSnapshot.child(DatabaseManager.LOCATION).getValue().toString());
                         String photoUri = "";
                         if(dataSnapshot.child(DatabaseManager.USER_PHOTO).exists()) {
@@ -116,8 +146,9 @@ public class MyProfileActivity extends AppCompatActivity {
         else {
 
         }
-        if(photoUri.isEmpty()) {
-            // TODO display photo
+        imageView.setImageResource(R.mipmap.user_icon);
+        if(!photoUri.isEmpty()) {
+            Glide.with(MyProfileActivity.this).load(photoUri).into(imageView);
         }
     }
 
@@ -129,7 +160,66 @@ public class MyProfileActivity extends AppCompatActivity {
 
     // Save changes
     private void saveChanges() {
+        // Get new name
+        String newName = nameEditText.getText().toString();
+        if(newName.isEmpty()) {
+            Toast.makeText(this, "Name field can't be empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(user != null) {
+            if(!userName.equals(newName)) {
+                ref.child(user.getUid()).child(DatabaseManager.NAME).setValue(newName);
+            }
+            if(newImageUri != null && isImageChanged) {
+                isImageChanged = false;
+                saveNewImage();
+            }
+            Toast.makeText(this, "Changes saved.", Toast.LENGTH_LONG).show();
+        }
+    }
 
+    // Save new image
+    private void saveNewImage() {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                .child(DatabaseManager.USER_PHOTO).child(user.getUid());
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), newImageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+        byte[] data = baos.toByteArray();
+        final UploadTask uploadTask = storageReference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MyProfileActivity.this, "Error uploading image. Please try again later.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String downloadUri = uri.toString();
+                        ref.child(user.getUid()).child(DatabaseManager.USER_PHOTO).setValue(downloadUri);
+                        Toast.makeText(MyProfileActivity.this, "Changes saved.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    // Choose photo
+    private void choosePhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(IMAGE_INTENT_TYPE);
+        startActivityForResult(intent, IMAGE_REQUEST_CODE);
     }
 
     // Sign out alert dialog
@@ -163,6 +253,20 @@ public class MyProfileActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            newImageUri = data.getData();
+            imageView.setImageURI(newImageUri);
+            isImageChanged = true;
+        }
+        else if(resultCode != Activity.RESULT_OK && resultCode != Activity.RESULT_CANCELED) {
+            Toast.makeText(MyProfileActivity.this, "Error fetching image. Please try again later.", Toast.LENGTH_LONG).show();
+        }
     }
 
     // Menu methods

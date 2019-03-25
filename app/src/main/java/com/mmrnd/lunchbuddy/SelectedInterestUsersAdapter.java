@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import org.w3c.dom.Text;
 
@@ -64,6 +65,10 @@ public class SelectedInterestUsersAdapter extends RecyclerView.Adapter<SelectedI
             interestsViewHolder.expertiseTextView.setText("- Expert");
         }
         interestsViewHolder.detailsTextView.setText(users.get(i).getDetails());
+        interestsViewHolder.imageView.setImageResource(R.mipmap.user_icon);
+        if(!users.get(i).getUserPhoto().isEmpty()) {
+            Glide.with(mContext).load(users.get(i).getUserPhoto()).into(interestsViewHolder.imageView);
+        }
 
         // Set on click listener
         interestsViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
