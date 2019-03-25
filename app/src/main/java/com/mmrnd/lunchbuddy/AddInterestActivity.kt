@@ -3,13 +3,19 @@ package com.mmrnd.lunchbuddy
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 /**
@@ -43,7 +49,7 @@ class AddInterestActivity : AppCompatActivity() {
 
         // Set on click listeners
         createNewTextView!!.setOnClickListener ({ view ->
-            // TODO implement
+            showCreateInterestDialog()
         })
 
         // Initialize toolbar
@@ -85,6 +91,77 @@ class AddInterestActivity : AppCompatActivity() {
 
         // Fetch interests
         fetchInterests()
+    }
+
+    // Show create interest dialog
+    private fun showCreateInterestDialog() {
+        //Create alert dialog builder
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Please enter the new interest")
+        builder.setCancelable(true)
+        // Set edit text
+        val createEditText = EditText(this)
+        createEditText.hint = "ex. Hiking"
+        builder.setView(createEditText)
+        //Set buttons
+        builder.setPositiveButton("Create") { dialog, which ->
+            createInterest(createEditText.text.toString())
+        }
+        builder.setNegativeButton(
+            "Cancel"
+        ) { dialog, which -> dialog.cancel() }
+        //Create alert dialog
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    // Create interest
+    private fun createInterest(input: String) {
+        validateInterest(input)
+    }
+
+    // Update database with new interest
+    private fun updateDatabaseWithNewInterest(input: String) {
+        // Add to interests database
+        ref!!.child(input).child(DatabaseManager.ADDED_BY).setValue(0)
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if(currentUser != null) {
+            ref!!.child(input).child(DatabaseManager.ADDED_BY).setValue(currentUser!!.uid)
+        }
+        showErrorToast("Interest successfully added")
+    }
+
+    // Validate interest
+    private fun validateInterest(input: String) {
+        // Check if string is empty
+        if(input.isEmpty()) {
+            showErrorToast("Invalid input")
+            return
+        }
+        // Edit string
+        val trimmedString = input.trim()
+        val re = Regex("[^A-Za-z0-9 ]")
+        val finalString = re.replace(trimmedString, "")
+        if(finalString.isEmpty()) {
+            showErrorToast("Invalid input")
+            return
+        }
+        // Check if already in interests
+        for(interest in interests) {
+            if(interest == finalString) {
+                showErrorToast("Interest already exists")
+                return
+            }
+        }
+        // Update database with new interest
+        updateDatabaseWithNewInterest(finalString)
+        // Fetch interests again
+        fetchInterests()
+    }
+
+    // Show error toast
+    private fun showErrorToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     // Go to edit interest
