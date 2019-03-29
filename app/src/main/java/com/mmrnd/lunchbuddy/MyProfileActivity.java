@@ -78,7 +78,6 @@ public class MyProfileActivity extends AppCompatActivity {
         // Toolbar
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set click listeners
