@@ -24,6 +24,12 @@ import com.google.firebase.database.*
 
 class AddInterestActivity : AppCompatActivity() {
 
+    // Validate new interest return codes
+    val INTEREST_OK = 0
+    val INTEREST_ALREADY_EXISTS = -2
+    val INTEREST_EMPTY = -1
+    val INTEREST_INVALID = -3
+
     // GUI elements
     var toolbar: Toolbar? = null
     var searchView: SearchView? = null
@@ -117,7 +123,20 @@ class AddInterestActivity : AppCompatActivity() {
 
     // Create interest
     private fun createInterest(input: String) {
-        validateInterest(input)
+        val finalString = formatInterest(input)
+        if(validateInterest(finalString) == INTEREST_OK) {
+            // Update database with new interest
+            updateDatabaseWithNewInterest(finalString)
+            // Fetch interests again
+            fetchInterests()
+        }
+        else if(validateInterest(finalString) == INTEREST_INVALID) {
+            showErrorToast("Invalid input")
+
+        }
+        else if(validateInterest(finalString) == INTEREST_ALREADY_EXISTS) {
+            showErrorToast("Interest already exists")
+        }
     }
 
     // Update database with new interest
@@ -131,32 +150,33 @@ class AddInterestActivity : AppCompatActivity() {
         showErrorToast("Interest successfully added")
     }
 
+    // Format interest
+    fun formatInterest(input: String): String {
+        var trimmedString = input.trim()
+        val re = Regex("[^A-Za-z0-9 ]")
+        var finalString = re.replace(trimmedString, "")
+        return finalString
+    }
+
     // Validate interest
-    private fun validateInterest(input: String) {
+    fun validateInterest(input: String): Int {
         // Check if string is empty
         if(input.isEmpty()) {
-            showErrorToast("Invalid input")
-            return
+            return INTEREST_INVALID
         }
-        // Edit string
-        val trimmedString = input.trim()
-        val re = Regex("[^A-Za-z0-9 ]")
-        val finalString = re.replace(trimmedString, "")
-        if(finalString.isEmpty()) {
-            showErrorToast("Invalid input")
-            return
+        // Check if it contains non-alphanumeric characters
+        for(i in 0 until input.length) {
+            if(!input[i].isLetterOrDigit()) {
+                return INTEREST_INVALID
+            }
         }
         // Check if already in interests
         for(interest in interests) {
-            if(interest == finalString) {
-                showErrorToast("Interest already exists")
-                return
+            if (interest == input) {
+                return INTEREST_ALREADY_EXISTS
             }
         }
-        // Update database with new interest
-        updateDatabaseWithNewInterest(finalString)
-        // Fetch interests again
-        fetchInterests()
+        return INTEREST_OK
     }
 
     // Show error toast
