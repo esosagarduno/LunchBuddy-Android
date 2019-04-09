@@ -124,17 +124,18 @@ class AddInterestActivity : AppCompatActivity() {
     // Create interest
     private fun createInterest(input: String) {
         val finalString = formatInterest(input)
-        if(validateInterest(finalString) == INTEREST_OK) {
+        val isInterestValid = validateInterest(finalString)
+        if(isInterestValid == INTEREST_OK) {
             // Update database with new interest
             updateDatabaseWithNewInterest(finalString)
             // Fetch interests again
             fetchInterests()
         }
-        else if(validateInterest(finalString) == INTEREST_INVALID) {
+        else if(isInterestValid == INTEREST_INVALID) {
             showErrorToast("Invalid input")
 
         }
-        else if(validateInterest(finalString) == INTEREST_ALREADY_EXISTS) {
+        else if(isInterestValid == INTEREST_ALREADY_EXISTS) {
             showErrorToast("Interest already exists")
         }
     }
