@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import com.google.firebase.database.*
 import java.sql.DatabaseMetaData
@@ -24,6 +25,7 @@ class SelectedInterestActivity : AppCompatActivity() {
     var toolbar: Toolbar? = null
     var toolbarTitle: TextView? = null
     var recyclerView: RecyclerView? = null
+    var noUsersTextView: TextView? = null
 
     // Variables
     var interestTitle: String = ""
@@ -43,6 +45,7 @@ class SelectedInterestActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.selected_interest_toolbar)
         toolbarTitle = findViewById(R.id.selected_interest_toolbar_title)
         recyclerView = findViewById(R.id.selected_interest_recyclerview)
+        noUsersTextView = findViewById(R.id.selected_interest_nousers_textview)
 
         // Get intent variables
         interestTitle = intent.getStringExtra(INTEREST_TITLE)
@@ -92,6 +95,7 @@ class SelectedInterestActivity : AppCompatActivity() {
         // Clear list
         users.clear()
         adapter!!.notifyDataSetChanged()
+        noUsersTextView!!.visibility = View.GONE
         // Fetch users
         interestRef!!.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -124,7 +128,7 @@ class SelectedInterestActivity : AppCompatActivity() {
                     }
                 }
                 else {
-                    // TODO display no users view
+                    noUsersTextView!!.visibility = View.VISIBLE
                 }
             }
             override fun onCancelled(error: DatabaseError) { }

@@ -39,6 +39,7 @@
     <string name="other_interests">Other interests</string>
     <string name="remove_interest">Remove Interest</string>
     <string name="search_interest">Search interest...</string>
+    <string name="no_users">No users have added this interest</string>
     
     <string-array name="expertise_levels_array">
         <item>Novice</item>
