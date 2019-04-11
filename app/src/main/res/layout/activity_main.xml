@@ -6,13 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:background="@color/dark_grey">
+        android:background="@layout/background_gradient">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lunch Buddy"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_xlarge"
             android:textColor="@color/white"
             android:layout_marginTop="64dp"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
@@ -31,7 +31,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:backgroundTint="@color/light_grey"
             android:layout_marginTop="8dp"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/textView13" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp" android:id="@+id/login_email_edittext"/>
@@ -51,6 +53,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/light_grey"
             app:layout_constraintTop_toBottomOf="@+id/textView14" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp" android:id="@+id/login_password_edittext"/>
@@ -59,8 +63,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/login"
+            android:textSize="@dimen/text_size_medium"
             android:textAllCaps="false"
             android:layout_marginTop="8dp"
+            android:background="@drawable/login_button_shape"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/login_password_edittext"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
@@ -80,7 +87,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
-            android:background="@color/light_grey"
+            android:background="@color/white"
+            android:textColor="@color/blue"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/login_signup_button"/>
