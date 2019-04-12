@@ -142,6 +142,7 @@ class EditInterestActivity : AppCompatActivity() {
     private fun showRemoveInterestDialog() {
         //Create alert dialog builder
         val builder = AlertDialog.Builder(this)
+        builder.setTitle("Remove interest?")
         builder.setMessage("Are you sure you want to remove this interest?")
         builder.setCancelable(true)
         //Set buttons

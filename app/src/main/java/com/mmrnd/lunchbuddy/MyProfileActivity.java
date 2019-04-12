@@ -225,6 +225,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private void showSignOutDialog() {
         //Create alert dialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sign out?");
         builder.setMessage("Are you sure you want to sign out?");
         builder.setCancelable(true);
         //Set buttons

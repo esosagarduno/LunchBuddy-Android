@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -103,10 +104,14 @@ class AddInterestActivity : AppCompatActivity() {
     private fun showCreateInterestDialog() {
         //Create alert dialog builder
         val builder = AlertDialog.Builder(this)
+        builder.setTitle("Create new interest")
         builder.setMessage("Please enter the new interest")
         builder.setCancelable(true)
         // Set edit text
         val createEditText = EditText(this)
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(64, 2, 64, 2)
+        createEditText.layoutParams = layoutParams
         createEditText.hint = "ex. Hiking"
         builder.setView(createEditText)
         //Set buttons
