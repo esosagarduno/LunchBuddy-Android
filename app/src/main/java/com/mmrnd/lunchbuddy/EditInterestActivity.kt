@@ -61,24 +61,29 @@ class EditInterestActivity : AppCompatActivity() {
         detailsTextView = findViewById(R.id.edit_interest_details_edittext)
         removeButton = findViewById(R.id.edit_interest_remove_button)
 
-        // Initialize toolbar
-        toolbar!!.title = ""
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
         // Get intent variables
         isEditInterest = intent.getBooleanExtra(IS_EDIT_INTEREST, false)
         title = intent.getStringExtra(EDIT_INTEREST_TITLE)
         level = intent.getIntExtra(EDIT_INTEREST_SPINNER_VALUE, 0)
         details = intent.getStringExtra(EDIT_INTEREST_DETAILS)
 
-        // Display info
+        // Initialize toolbar
         if(isEditInterest) {
+            toolbar!!.title = "Edit Interest"
+        }
+        else {
+            toolbar!!.title = "Add Interest"
+        }
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        // Display info
+        /*if(isEditInterest) {
             toolbarTitleTextView!!.text = "Edit Interest"
         }
         else {
             toolbarTitleTextView!!.text = "Add Interest"
-        }
+        }*/
         titleTextView!!.text = title
         spinner!!.setSelection(level)
         detailsTextView!!.text = details

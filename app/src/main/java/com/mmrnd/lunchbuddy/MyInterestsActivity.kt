@@ -39,7 +39,7 @@ class MyInterestsActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.my_interests_recyclerview)
 
         // Initialize toolbar
-        toolbar!!.title = ""
+        toolbar!!.title = "My Interests"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

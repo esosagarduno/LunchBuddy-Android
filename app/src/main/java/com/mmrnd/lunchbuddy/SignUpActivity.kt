@@ -43,7 +43,7 @@ class SignUpActivity : AppCompatActivity() {
         signUpButton = findViewById(R.id.signup_signup_button)
 
         // Initialize toolbar
-        toolbar!!.title = ""
+        toolbar!!.title = "Create Account"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

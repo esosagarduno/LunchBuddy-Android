@@ -71,7 +71,7 @@ class MainAppActivity : AppCompatActivity() {
         })
 
         // Initialize toolbar
-        toolbar!!.title = ""
+        toolbar!!.title = "Lunch Buddy"
         setSupportActionBar(toolbar)
 
         // Initialize Firebase

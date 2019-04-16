@@ -22,7 +22,7 @@ class MapActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.map_toolbar)
 
         // Initialize toolbar
-        toolbar!!.title = ""
+        toolbar!!.title = "Cafeteria Map"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }

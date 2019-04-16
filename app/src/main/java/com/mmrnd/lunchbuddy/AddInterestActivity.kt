@@ -60,7 +60,7 @@ class AddInterestActivity : AppCompatActivity() {
         })
 
         // Initialize toolbar
-        toolbar!!.title = ""
+        toolbar!!.title = "Add Interest"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

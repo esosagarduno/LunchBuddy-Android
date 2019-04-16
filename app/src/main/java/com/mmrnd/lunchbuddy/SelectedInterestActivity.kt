@@ -51,8 +51,8 @@ class SelectedInterestActivity : AppCompatActivity() {
         interestTitle = intent.getStringExtra(INTEREST_TITLE)
 
         // Initialize toolbar
-        toolbarTitle!!.text = interestTitle
-        toolbar!!.title = ""
+        //toolbarTitle!!.text = interestTitle
+        toolbar!!.title = interestTitle
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

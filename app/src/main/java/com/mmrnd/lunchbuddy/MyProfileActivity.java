@@ -76,7 +76,7 @@ public class MyProfileActivity extends AppCompatActivity {
         signOutButton = findViewById(R.id.my_profile_signout_button);
 
         // Toolbar
-        toolbar.setTitle("");
+        toolbar.setTitle("My Profile");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
