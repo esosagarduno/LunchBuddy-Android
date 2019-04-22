@@ -116,35 +116,35 @@ class SignUpActivity : AppCompatActivity() {
 
     // Form validation methods
     // Validate name
-    private fun validateName(name: String): Boolean {
+    fun validateName(name: String): Boolean {
         if(name.isEmpty()) {
             return false
         }
         return true
     }
     // Validate email
-    private fun validateEmail(email: String): Boolean {
+    fun validateEmail(email: String): Boolean {
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             return false
         }
         return true
     }
     // Email match check
-    private fun validateEmailMatch(email: String, confirmEmail: String): Boolean {
+    fun validateEmailMatch(email: String, confirmEmail: String): Boolean {
         if(email != confirmEmail) {
             return false
         }
         return true
     }
     // Validate password
-    private fun validatePassword(password: String): Boolean {
+    fun validatePassword(password: String): Boolean {
         if(password.length < 8) {
             return false
         }
         return true
     }
     // Password match check
-    private fun validatePasswordMatch(password: String, confirmPassword: String): Boolean {
+    fun validatePasswordMatch(password: String, confirmPassword: String): Boolean {
         if(password != confirmPassword) {
             return false
         }
