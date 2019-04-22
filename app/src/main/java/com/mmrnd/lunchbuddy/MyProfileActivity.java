@@ -162,7 +162,7 @@ public class MyProfileActivity extends AppCompatActivity {
         // Get new name
         String newName = nameEditText.getText().toString();
         if(newName.isEmpty()) {
-            Toast.makeText(this, "Name field can't be empty.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Name field can't be empty", Toast.LENGTH_LONG).show();
             return;
         }
         if(user != null) {
@@ -173,7 +173,7 @@ public class MyProfileActivity extends AppCompatActivity {
                 isImageChanged = false;
                 saveNewImage();
             }
-            Toast.makeText(this, "Changes saved.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Changes saved", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -207,7 +207,7 @@ public class MyProfileActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUri = uri.toString();
                         ref.child(user.getUid()).child(DatabaseManager.USER_PHOTO).setValue(downloadUri);
-                        Toast.makeText(MyProfileActivity.this, "Changes saved.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyProfileActivity.this, "Changes saved", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
