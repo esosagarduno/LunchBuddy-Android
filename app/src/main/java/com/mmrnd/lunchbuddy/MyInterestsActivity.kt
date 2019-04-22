@@ -3,6 +3,7 @@ package com.mmrnd.lunchbuddy
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -21,6 +22,7 @@ class MyInterestsActivity : AppCompatActivity() {
     // GUI elements
     var toolbar: Toolbar? = null
     var recyclerView: RecyclerView? = null
+    var addFab: FloatingActionButton? = null
 
     // Variables
     var interestsAdapter: MyInterestsAdapter? = null
@@ -37,6 +39,7 @@ class MyInterestsActivity : AppCompatActivity() {
         // Get GUI elements
         toolbar = findViewById(R.id.my_interests_toolbar)
         recyclerView = findViewById(R.id.my_interests_recyclerview)
+        addFab = findViewById(R.id.my_interests_add_fab)
 
         // Initialize toolbar
         toolbar!!.title = "My Interests"
@@ -53,6 +56,11 @@ class MyInterestsActivity : AppCompatActivity() {
         })
         recyclerView!!.adapter = interestsAdapter
         interestsAdapter!!.notifyDataSetChanged()
+
+        // Set click listener
+        addFab!!.setOnClickListener ({ view ->
+            goToAddInterest()
+        })
 
         // Firebase
         currentUser = FirebaseAuth.getInstance().currentUser
@@ -99,16 +107,8 @@ class MyInterestsActivity : AppCompatActivity() {
     }
 
     // Menu methods
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.my_interests_menu, menu)
-        return true
-    }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item!!.itemId
-        if(id == R.id.my_interests_plus) {
-            goToAddInterest()
-            return true
-        }
         if(id == android.R.id.home) {
             this.finish()
             return true

@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -29,6 +30,13 @@ class SignUpActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     var signUpButton: Button? = null
 
+
+    var nameText: TextInputLayout? = null
+    var emailText: TextInputLayout? = null
+    var confirmEmailText: TextInputLayout? = null
+    var passwordText: TextInputLayout? = null
+    var confirmPasswordText: TextInputLayout? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -41,6 +49,12 @@ class SignUpActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.signup_password_edittext)
         confirmPasswordEditText = findViewById(R.id.signup_confirmpassword_edittext)
         signUpButton = findViewById(R.id.signup_signup_button)
+
+        nameText = findViewById(R.id.signup_name_textinputlayout)
+        emailText = findViewById(R.id.signup_email_textinputlayout)
+        confirmEmailText = findViewById(R.id.signup_confirmemail_textinputlayout)
+        passwordText = findViewById(R.id.signup_password_textinputlayout)
+        confirmPasswordText = findViewById(R.id.signup_confirmpassword_textinputlayout)
 
         // Initialize toolbar
         toolbar!!.title = "Create Account"
@@ -100,8 +114,88 @@ class SignUpActivity : AppCompatActivity() {
         ref.child(DatabaseManager.LOCATION).setValue(0)
     }
 
+    // Form validation methods
+    // Validate name
+    private fun validateName(name: String): Boolean {
+        if(name.isEmpty()) {
+            return false
+        }
+        return true
+    }
+    // Validate email
+    private fun validateEmail(email: String): Boolean {
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return false
+        }
+        return true
+    }
+    // Email match check
+    private fun validateEmailMatch(email: String, confirmEmail: String): Boolean {
+        if(email != confirmEmail) {
+            return false
+        }
+        return true
+    }
+    // Validate password
+    private fun validatePassword(password: String): Boolean {
+        if(password.length < 8) {
+            return false
+        }
+        return true
+    }
+    // Password match check
+    private fun validatePasswordMatch(password: String, confirmPassword: String): Boolean {
+        if(password != confirmPassword) {
+            return false
+        }
+        return true
+    }
+
+    private fun validateForm(name: String, email: String, confirmEmail: String, password: String, confirmPasssword: String): Boolean {
+        if(!validateName(name)) {
+            nameText!!.error = "Name field can't be empty"
+            return false
+        }
+        else {
+            nameText!!.error = ""
+        }
+        if(!validateEmail(email)) {
+            emailText!!.error = "Invalid email format"
+            return false
+        }
+        else {
+            emailText!!.error = ""
+        }
+        if(!validateEmailMatch(email, confirmEmail)) {
+            emailText!!.error = "Emails don't match"
+            confirmEmailText!!.error = "Emails don't match"
+            return false
+        }
+        else {
+            emailText!!.error = ""
+            confirmEmailText!!.error = ""
+        }
+        if(!validatePassword(password)) {
+            passwordText!!.error = "Password must be at least 8 characters long"
+            return false
+        }
+        else {
+            passwordText!!.error = ""
+        }
+        if(!validatePasswordMatch(password, confirmPasssword)) {
+            passwordText!!.error = "Passwords don't match"
+            confirmPasswordText!!.error = "Passwords don't match"
+            return false
+        }
+        else {
+            passwordText!!.error = ""
+            confirmPasswordText!!.error = ""
+        }
+        return true
+    }
+
     // Validate form
-    private fun validateForm(name: String, email: String, confirmEmail: String, password: String, confirmPassword: String): Boolean {
+    /*private fun validateForm(name: String, email: String, confirmEmail: String, password: String, confirmPassword: String): Boolean {
         // Check if empty
         if(name.isEmpty() || email.isEmpty() || confirmEmail.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showToast("All fields are required")
@@ -128,7 +222,7 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
         return true
-    }
+    }*/
 
     // Show toast
     private fun showToast(message: String) {

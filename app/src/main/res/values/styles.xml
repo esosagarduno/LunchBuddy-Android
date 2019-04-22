@@ -15,6 +15,7 @@
         <item name="colorControlNormal">#FFFFFF</item>
         <item name="colorControlActivated">#FFFFFF</item>
         <item name="colorControlHighlight">#FFFFFF</item>
+        <item name="colorError">#F44336</item>
     </style>
 
 </resources>
